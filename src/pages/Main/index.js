@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import produce from 'immer';
 
-import { Paper, TextField, Button } from '@material-ui/core';
+import { Paper, TextField, Button, Checkbox } from '@material-ui/core';
 import InputCelular from '../../components/Celular';
 
 export default function Main() {
@@ -21,6 +22,7 @@ export default function Main() {
     for (let index = 0; index < quantidade; index++) {
       const novoCelular = {};
       const celularNumber = Number(celular.replace(/[()-]/gi, ''));
+      novoCelular.checked = false;
       novoCelular.numero = celularNumber + index;
       novoCelular.numeroFormatado = `(${String(novoCelular.numero).substring(
         0,
@@ -35,7 +37,39 @@ export default function Main() {
     }
 
     setCelulares(novosCelulares);
+    setCelular('');
+    setQuantidade(1);
   };
+
+  const handleChecked = (e, i) => {
+    setCelulares(
+      produce(celulares, (draft) => {
+        draft[i].checked = e.target.checked;
+      })
+    );
+  };
+
+  const handleClick = (i) => {
+    setCelulares(
+      produce(celulares, (draft) => {
+        draft[i].checked = true;
+      })
+    );
+  };
+
+  /**
+   * Effects
+   */
+  useEffect(() => {
+    const localCelulares = localStorage.getItem('celulares');
+    if (localCelulares) {
+      setCelulares(JSON.parse(localCelulares));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('celulares', JSON.stringify(celulares));
+  }, [celulares]);
 
   /**
    * Returns
@@ -78,7 +112,7 @@ export default function Main() {
           Gerar
         </Button>
       </Paper>
-      {celulares.map((cel) => (
+      {celulares.map((cel, i) => (
         <Paper
           key={cel.numero}
           style={{
@@ -89,15 +123,26 @@ export default function Main() {
             margin: '15px',
           }}
         >
-          {cel.numeroFormatado}{' '}
+          <Checkbox
+            checked={cel.checked}
+            onChange={(e) => handleChecked(e, i)}
+          />
+          {cel.numeroFormatado}
           <a
             style={{ margin: '0px 15px' }}
             href={cel.linkWhastapp}
             target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => handleClick(i)}
           >
             Whastapp
           </a>
-          <a href={cel.linkTelefone} target="_blank">
+          <a
+            href={cel.linkTelefone}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => handleClick(i)}
+          >
             Telefone
           </a>
         </Paper>
