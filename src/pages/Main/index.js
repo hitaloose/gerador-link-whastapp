@@ -135,7 +135,7 @@ export default function Main() {
             rel="noopener noreferrer"
             onClick={() => handleClick(i)}
           >
-            Whastapp
+            Whatsapp
           </a>
           <a
             href={cel.linkTelefone}
