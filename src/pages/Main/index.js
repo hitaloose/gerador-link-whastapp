@@ -82,7 +82,7 @@ export default function Main() {
           justifyContent: 'center',
           alignItems: 'center',
           padding: '15px',
-          margin: '15px',
+          margin: '15px 15px 30px 15px',
         }}
         component="form"
         onSubmit={handleSubmit}
@@ -143,7 +143,7 @@ export default function Main() {
             rel="noopener noreferrer"
             onClick={() => handleClick(i)}
           >
-            Telefone
+            Discador
           </a>
         </Paper>
       ))}
