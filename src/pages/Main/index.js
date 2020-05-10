@@ -120,7 +120,8 @@ export default function Main() {
             justifyContent: 'center',
             alignItems: 'center',
             padding: '15px',
-            margin: '15px',
+            margin: '15px auto',
+            maxWidth: '400px',
           }}
         >
           <Checkbox
@@ -147,6 +148,25 @@ export default function Main() {
           </a>
         </Paper>
       ))}
+      <footer
+        style={{
+          position: 'relative',
+          bottom: '0',
+          width: '100%',
+          height: '2.5rem',
+          padding: '0px 10px',
+        }}
+      >
+        GitHub:
+        <a
+          href="https://github.com/hitaloose"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {' '}
+          hitaloose
+        </a>
+      </footer>
     </>
   );
 }
